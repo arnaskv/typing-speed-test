@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
+        crossorigin="anonymous"
+    >
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body class="bg-dark">
+    <div class="container min-vh-100 bg-dark d-flex flex-column">
+        <div class="row py-3">
+            <div id="heading" class="col-12"><p>Typing Speed Test</p></div>
+        </div>
+        <div class="row py-4 px-3">
+            <div id="timer" class="stats-item col-4"></div>
+            <div id="wpm" class="stats-item col-2 text-end"></div>
+            <div id="wpm-diff" class="diff-item col-2"></div>
+            <div id="accuracy" class="stats-item col-2 text-end"></div>
+            <div id="accuracy-diff" class="diff-item col-2"></div>
+        </div>
+        <div class="row p-3 border-bottom">
+            <div id="test-text" class="text-block col-12 text-white"></div>
+        </div>
+        <div class="row p-3">
+            <div class="col-12">
+                <textarea id="user-input" class="text-block bg-dark text-white" placeholder="Start typing..."></textarea>
+            </div>
+        </div>
+        <!-- <div class="row p-3">
+            <div id="line-graph" class="col"></div>
+        </div> -->
+        <div class="row py-3">
+            <div class="col-6">
+                <button id="start-button" class="btn btn-light menu-button">
+                    <div class="key-highlight">[ ENTER ]</div>
+                    <div>&nbsp;- new test</div>
+                </button>
+            </div>
+            <div class="col-6">
+                <button id="restart-button" class="btn btn-light menu-button">
+                    <div class="key-highlight">[ ESC ]</div>
+                    <div>&nbsp;- restart previous test</div>
+                </button>
+            </div>
+        </div>
+        <div class="row align-items-end flex-grow-1">
+            <div class="col py-3">
+                <button id="reset-statistics" class="btn btn-dark">Reset statistics</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./scripts/timer.js" defer></script>
+    <script type="module" src="./scripts/textGenerator.js" defer></script>
+    <script type="module" src="./scripts/dataManagment.js" defer></script>
+    <script type="module" src="scripts/index.js" defer></script>
+</body>
+</html>

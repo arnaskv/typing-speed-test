@@ -1,0 +1,74 @@
+#heading {
+    font-size: 32px;
+    font-weight: bolder;
+    color: var(--primary-sand-color);
+}
+
+.stats-item {
+    min-height: 30px;
+    font-size: 28px;
+    font-weight: bolder;
+    color: var(--primary-sand-color);
+}
+
+.diff-item {
+    color: var(--primary-sand-color);
+    font-size: 16px;
+    display: flex;
+    align-items: start;
+}
+
+.text-block {
+    overflow: hidden;
+    min-height: 180px;
+    max-height: 20vh;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+#user-input {
+    border: none;
+}
+
+#line-graph {
+    min-height: 300px;
+}
+
+.menu-button {
+    background-color: var(--primary-sand-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-button:hover {
+    background-color: bisque;
+}
+
+.key-highlight {
+    font-weight: bold;
+    color: var(--primary-sand-color);
+    background-color: var(--secondary-color);
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+.underline-space {
+    color: red;
+    text-decoration: underline;
+}
+
+.current-word {
+    background-color: var(--primary-sand-color);
+}
+
+.current-word:not(.correct):not(.incorrect) {
+    color: black;
+}

@@ -18,6 +18,11 @@
     align-items: start;
 }
 
+#stats-chart {
+    min-height: 380px;
+    max-height: 380px;
+}
+
 .text-block {
     overflow: hidden;
     min-height: 180px;
@@ -29,10 +34,6 @@
 
 #user-input {
     border: none;
-}
-
-#line-graph {
-    min-height: 300px;
 }
 
 .menu-button {
@@ -71,4 +72,8 @@
 
 .current-word:not(.correct):not(.incorrect) {
     color: black;
+}
+
+.hidden {
+    display: none;
 }

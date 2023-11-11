@@ -1,6 +1,7 @@
 import { TextGenerator } from './textGenerator.js';
 import { Timer } from './timer.js';
 import { saveTestData, loadTestData, resetTestData } from './dataManagment.js';
+import { createLineChart } from './graph.js';
 
 const testText = document.getElementById('test-text');
 const userInput = document.getElementById('user-input');
@@ -9,7 +10,7 @@ const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
 
 const testTextLength = 35;
-const initialTimerValue = 60;
+const initialTimerValue = 5;
 
 const upArrow = '\u2191';
 const downArrow = '\u2193';
@@ -128,9 +129,10 @@ function renderTestResults(results) {
     document.getElementById('wpm').textContent = `WPM: ${results.wpm}`;
     document.getElementById('accuracy').textContent = `ACC: ${results.accuracy}%`;
 
+    createLineChart('stats-chart', loadedData);
     if (loadedData) {
-        const wpmDiff = results.wpm - loadedData[loadedData.length - 1].wpm;
-        const accuracyDiff = results.accuracy - loadedData[loadedData.length - 1].accuracy;
+        const wpmDiff = results.wpm - loadedData[loadedData.length - 2].wpm;
+        const accuracyDiff = results.accuracy - loadedData[loadedData.length - 2].accuracy;
     
         if (wpmDiff > 0) {
             document.getElementById('wpm-diff').textContent = `${upArrow}+${wpmDiff}`;
@@ -143,6 +145,10 @@ function renderTestResults(results) {
             document.getElementById('accuracy-diff').textContent = `${downArrow}${accuracyDiff}`;
         }
     }
+
+    document.getElementById('text-row-1').style.display = 'none';
+    document.getElementById('text-row-2').style.display = 'none';
+    document.getElementById('stats-chart').style.display = 'block';
 }
 
 function hideTestResults() {
@@ -150,6 +156,9 @@ function hideTestResults() {
     document.getElementById('accuracy').textContent = '';
     document.getElementById('wpm-diff').textContent = '';
     document.getElementById('accuracy-diff').textContent = '';
+    document.getElementById('stats-chart').style.display = 'none';
+    document.getElementById('text-row-1').style.display = 'block';
+    document.getElementById('text-row-2').style.display = 'block';
 }
 
 function startTest(timer) {
@@ -170,9 +179,9 @@ function endTest(currentResults) {
     }
 
     const calculatedResults = calculateTestResults(endResults);
-    renderTestResults(calculatedResults);
     
     saveTestData(calculatedResults);
+    renderTestResults(calculatedResults);
     clearObjectValues(currentResults);
 }
 
@@ -251,14 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
         testText.textContent = '';
         userInput.value = '';
         timer.reset();
-        userInput.disabled = false;
-        testReady = true;
-        hideTestResults();
         textGenerator.getRenderedText().then((response) => {
             testText.innerHTML = response.htmlContent;
             testString = response.originalString;
             highlightCurrentWord();
         })
+        userInput.disabled = false;
+        testReady = true;
+        hideTestResults();
     })
 
     restartButton.addEventListener('click', () => {

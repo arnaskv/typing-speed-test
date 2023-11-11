@@ -25,17 +25,19 @@
             <div id="accuracy" class="stats-item col-2 text-end"></div>
             <div id="accuracy-diff" class="diff-item col-2"></div>
         </div>
-        <div class="row p-3 border-bottom">
+        <div id="text-row-1" class="row p-3 border-bottom">
             <div id="test-text" class="text-block col-12 text-white"></div>
         </div>
-        <div class="row p-3">
+        <div id="text-row-2" class="row p-3">
             <div class="col-12">
                 <textarea id="user-input" class="text-block bg-dark text-white" placeholder="Start typing..."></textarea>
             </div>
         </div>
-        <!-- <div class="row p-3">
-            <div id="line-graph" class="col"></div>
-        </div> -->
+        <div id="stats-row" class="row p-3">
+            <div class="col">
+                <canvas id="stats-chart" class="text-center"></canvas>
+            </div>
+        </div>
         <div class="row py-3">
             <div class="col-6">
                 <button id="start-button" class="btn btn-light menu-button">
@@ -57,6 +59,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./scripts/graph.js" defer></script>
     <script type="module" src="./scripts/timer.js" defer></script>
     <script type="module" src="./scripts/textGenerator.js" defer></script>
     <script type="module" src="./scripts/dataManagment.js" defer></script>

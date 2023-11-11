@@ -9,7 +9,7 @@ const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
 
 const testTextLength = 35;
-const initialTimerValue = 20;
+const initialTimerValue = 60;
 
 const upArrow = '\u2191';
 const downArrow = '\u2193';
@@ -73,18 +73,10 @@ function highlightCurrentWord() {
     }
 }
 
-function checkTextCompletion(testString, currentResults) {
+function checkTextCompletion(testString) {
     const inputLength = userInput.value.length;
-    const tempResults = getTempResults();
 
     if (inputLength === testString.length - 1) {
-        if (currentResults) {
-            currentResults.correctWords += tempResults.correctWords;
-            currentResults.typedWords += tempResults.typedWords;
-        } else {
-            currentResults = tempResults;
-        }
-        console.log(currentResults);
         return true;
     }
     return false;
@@ -118,15 +110,17 @@ function getTempResults() {
             typed = false;
         }
     }
+    
+    let results = {'correctWords': correctWords, 'typedWords': typedWords};
 
-    return {correctWords: correctWords, typedWords: typedWords};
+    return results;
 }
 
 function calculateTestResults(results) {
     const wpm = Math.round(results.correctWords / initialTimerValue * 60);
     const accuracy = Math.round(results.correctWords / results.typedWords * 100);
     const currentDate = new Date().toISOString();
-    return { date: currentDate, wpm: wpm, accuracy: accuracy };
+    return {date: currentDate, wpm: wpm, accuracy: accuracy};
 }
 
 function renderTestResults(results) {
@@ -168,12 +162,17 @@ function endTest(currentResults) {
     testReady = false;
     userInput.blur();
     userInput.disabled = true;
+    
+    let endResults = getTempResults();
+    if (currentResults) {
+        endResults.correctWords += currentResults.correctWords;
+        endResults.typedWords += currentResults.typedWords;
+    }
 
-    currentResults += getTempResults();
-    const results = calculateTestResults(currentResults);
-    saveTestData(results);
-
-    renderTestResults(currentResults);
+    const calculatedResults = calculateTestResults(endResults);
+    renderTestResults(calculatedResults);
+    
+    saveTestData(calculatedResults);
     clearObjectValues(currentResults);
 }
 
@@ -185,13 +184,11 @@ function resetTest(timer, currentResults) {
     testReady = true;
     userInput.disabled = false;
     hideTestResults();
-    console.log(currentResults);
     clearObjectValues(currentResults);
-    console.log(currentResults);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    let currentResults = {};
+    let currentResults = {'correctWords': 0, 'typedWords': 0};
     let enterPressed = false;
     let escPressed = false;
 
@@ -202,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timer = new Timer(initialTimerValue, (remainingTime) => {
         timerElement.textContent = remainingTime;
     }, () => {
-        endTest();
+        endTest(currentResults);
     });
 
     let testString;
@@ -229,7 +226,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     userInput.addEventListener('input', () => {
-        if (checkTextCompletion(testString, currentResults)) {
+        if (checkTextCompletion(testString)) {
+            const tempResults = getTempResults();
+            if (!currentResults) {
+                currentResults = tempResults;
+            } else {
+                currentResults.correctWords += tempResults.correctWords;
+                currentResults.typedWords += tempResults.typedWords;
+            }
             testText.textContent = '';
             userInput.value = '';
             textGenerator.getRenderedText().then((response) => {

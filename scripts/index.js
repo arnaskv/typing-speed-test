@@ -37,6 +37,12 @@ function checkCharacter() {
             charSpan.classList.remove('correct');
             charSpan.classList.add('incorrect');
         }
+
+        if (charSpan.innerText === ' ' && charSpan.classList.contains('incorrect')) {
+            charSpan.classList.add('red-underline');
+        } else {
+            charSpan.classList.remove('red-underline');
+        }
     })
 }
 
@@ -77,7 +83,7 @@ function highlightCurrentWord() {
 function checkTextCompletion(testString) {
     const inputLength = userInput.value.length;
 
-    if (inputLength === testString.length - 1) {
+    if (inputLength === testString.length) {
         return true;
     }
     return false;
@@ -85,6 +91,7 @@ function checkTextCompletion(testString) {
 
 function getTempResults() {
     const testArray = testText.querySelectorAll('span');
+    console.log(testArray)
     let typedWords = 0;
     let correctWords = 0;
 
@@ -92,14 +99,20 @@ function getTempResults() {
     let typed = false;
     for (let i = 0; i < testArray.length; i++) {
         
+        const hasTextStartOrSpaceBefore = (i === 0 || testArray[i - 1].innerText === ' ');
+        const hasTextEndOrSpaceAfter = (i === testArray.length - 1 || testArray[i + 1].innerText === ' ');
+
         if (testArray[i].classList.contains('incorrect') || testArray[i].classList.contains('correct')) {
             typed = true;
             if (testArray[i].classList.contains('incorrect')) {
                 correct = false;
             }
+        } else if (hasTextStartOrSpaceBefore && hasTextEndOrSpaceAfter) {
+            correct = true;
         } else {
             correct = false;
         }
+
         if (testArray[i].innerText === ' ') {
             if (correct) {
                 correctWords++;
@@ -111,9 +124,9 @@ function getTempResults() {
             typed = false;
         }
     }
-    
-    let results = {'correctWords': correctWords, 'typedWords': typedWords};
+    console.log(correctWords, typedWords);
 
+    let results = {'correctWords': correctWords, 'typedWords': typedWords};
     return results;
 }
 

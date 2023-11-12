@@ -62,9 +62,9 @@
     color: red;
 }
 
-.underline-space {
-    color: red;
+.red-underline {
     text-decoration: underline;
+    text-decoration-color: red;
 }
 
 .current-word {

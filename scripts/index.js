@@ -10,7 +10,7 @@ const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
 
 const testTextLength = 35;
-const initialTimerValue = 5;
+const initialTimerValue = 60;
 
 const upArrow = '\u2191';
 const downArrow = '\u2193';
@@ -257,17 +257,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     startButton.addEventListener('click', () => {
-        testText.textContent = '';
-        userInput.value = '';
-        timer.reset();
+        resetTest(timer, currentResults);
+        testText.innerHTML = '';
         textGenerator.getRenderedText().then((response) => {
             testText.innerHTML = response.htmlContent;
             testString = response.originalString;
             highlightCurrentWord();
         })
-        userInput.disabled = false;
-        testReady = true;
-        hideTestResults();
     })
 
     restartButton.addEventListener('click', () => {
@@ -278,17 +274,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.code === 'Enter' && !enterPressed) {
             enterPressed = true;
             event.preventDefault();
-            testText.textContent = '';
-            userInput.value = '';
+            resetTest(timer, currentResults);
+            testText.innerHTML = '';
             textGenerator.getRenderedText().then((response) => {
                 testText.innerHTML = response.htmlContent;
                 testString = response.originalString;
                 highlightCurrentWord();
             })
-            timer.reset();
-            testReady = true;
-            userInput.disabled = false;
-            hideTestResults();
         }
 
         if (event.code === 'Escape' && !escPressed) {

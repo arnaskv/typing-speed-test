@@ -21,6 +21,7 @@
 #stats-chart {
     min-height: 380px;
     max-height: 380px;
+    display: none;
 }
 
 .text-block {

@@ -29,15 +29,16 @@ export class TextGenerator {
          * @returns {object} - object containing htmlContent and length of containing text 
          */
         try {
-            if (this.words.length < this.length*2) {
+            if (this.words.length < this.length*3) {
                 this.getRandomWords();
             }
+
             if (this.words.length > this.length) {
-                const words = this.words.slice(0, this.length);
+                const words = this.words.splice(0, this.length);
                 const text = words.join(' ');
     
                 const htmlContent = text.split('').map(letter => `<span>${letter}</span>`).join('');
-                return { htmlContent, originalString: text };
+                return { htmlContent, 'originalString': text };
             } else {
                 await this.getRandomWords();
                 return this.getRenderedText();
